@@ -34,7 +34,7 @@ body,
 
 .drop-zone {
   width: var(--container-width);
-  min-height: 250px;
+  min-height: 200px;
   border: 2px dashed var(--border-color);
   margin: 30px;
   border-radius: 10px;
@@ -149,7 +149,7 @@ body,
   margin-bottom: 20px;
 }
 
-p.expire {
+p {
   text-align: center;
   font-size: 18px;
 }
@@ -177,5 +177,51 @@ p.expire {
   right: 0;
   background-color: #fff;
   transform: translate(-20%, -50%);
+  cursor: pointer;
+}
+
+/* EMAIL CONTAINER */
+.email-container {
+  display: flex;
+  align-items: center;
+}
+
+.email-container form {
+  width: 100%;
+  border: 2px solid var(--border-color);
+  border-radius: 5px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  flex-direction: column;
+}
+
+.email-container form .form-control {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  width: 400px;
+}
+
+.email-container label {
+  font-size: 18px;
+}
+
+.email-container input {
+  border: none;
+  font-size: 17px;
+  border-bottom: 2px solid var(--border-color);
+  outline: none;
+}
+
+.email-container button {
+  padding: 8px 40px;
+  font-size: 18px;
+  margin-top: 15px;
+  border: none;
+  background-color: var(--border-color);
+  color: #fff;
+  border-radius: 5px;
   cursor: pointer;
 }

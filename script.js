@@ -12,8 +12,11 @@ const sharingContainer = document.querySelector('.sharing-container');
 const fileUrl = document.querySelector('#file-url');
 const copyButton = document.querySelector('#copy-button');
 
+const emailForm = document.querySelector('#email-form');
+
 const host = 'https://innshare.herokuapp.com';
 const uploadUrl = `https://reqres.in/api/users`;
+const emailUrl = `https://reqres.in/api/send`;
 const dummyUrl =
   'https://innshare.herokuapp.com/files/a695f6ab-3234-49ec-b16b-61444060a92c';
 
@@ -61,7 +64,7 @@ const uploadFile = () => {
   xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       console.log(xhr.response);
-      showLink({ file: 'File Name', link: dummyUrl });
+      showLink({ file: dummyUrl });
     }
   };
 
@@ -80,10 +83,49 @@ const copyToClipboard = (value) => {
 
 copyButton.addEventListener('click', copyToClipboard);
 
-const showLink = ({ link }) => {
+const showLink = ({ file: url }) => {
+  emailForm[2].removeAttribute('disabled');
+  fileInput.value = '';
+
   progressContainer.style.display = 'none';
   sharingContainer.style.display = 'block';
-  fileUrl.value = link;
+  fileUrl.value = url;
 };
 
 fileInput.addEventListener('change', uploadFile);
+
+emailForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const length = fileUrl.value.split('/').length;
+  const uuid = fileUrl.value.split('/')[length - 1];
+
+  const formData = {
+    uuid,
+    emailTo: emailForm.elements['senderEmail'].value,
+    emailForm: emailForm.elements['receiverEmail'].value,
+  };
+
+  console.table(formData);
+
+  emailForm[2].setAttribute('disabled', true);
+  fetch(emailUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData),
+  })
+    .then((res) => {
+      console.log(res);
+      return res.json();
+    })
+    .then(({ success }) => {
+      if (success) {
+        sharingContainer.style.display = 'none';
+        console.log('completed');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  console.log('done!');
+});
