@@ -3,7 +3,7 @@ const fileInput = document.querySelector('#fileInput');
 const browseButton = document.querySelector('.browseButton');
 
 const host = 'https://innshare.herokuapp.com';
-const uploadUrl = `${host}/api/files`;
+const uploadUrl = `https://reqres.in/api/users`;
 
 dropZone.addEventListener('dragover', (e) => {
   e.preventDefault();
@@ -29,7 +29,10 @@ browseButton.addEventListener('click', (e) => {
   fileInput.click();
 });
 
-fileInput.addEventListener('change', uploadFile);
+const updateProgress = (e) => {
+  const percentage = Math.round((e.loaded / e.total) * 100);
+  console.log(percentage);
+};
 
 const uploadFile = () => {
   const file = fileInput.files[0];
@@ -43,6 +46,10 @@ const uploadFile = () => {
     }
   };
 
+  xhr.upload.onprogress = updateProgress;
+
   xhr.open('POST', uploadUrl, true);
   xhr.send(formData);
 };
+
+fileInput.addEventListener('change', uploadFile);
