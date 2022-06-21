@@ -10,7 +10,8 @@ html {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: system-ui;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
   background-color: var(--main-bg-color);
   height: 100%;
 }
@@ -37,6 +38,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  transition: all 0.2s ease;
 }
 
 .icon-container {
@@ -67,6 +69,11 @@ body {
   transform: scale(0.9);
 }
 
+.dragged.drop-zone {
+  background-color: var(--main-bg-color);
+  border: 2px dashed rgb(74, 162, 244);
+}
+
 .dragged .icon-container .right {
   transform: rotate(15deg) translateX(30px) scale(0.9);
   transform-origin: bottom;
@@ -79,4 +86,13 @@ body {
 
 .dragged .icon-container .center {
   transform: translateY(-5px);
+}
+
+#fileInput {
+  display: none;
+}
+
+.browseButton {
+  color: rgb(74, 162, 244);
+  cursor: pointer;
 }
