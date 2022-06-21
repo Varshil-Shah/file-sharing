@@ -10,9 +10,11 @@ const progressTitle = document.querySelector('.progress-title');
 
 const sharingContainer = document.querySelector('.sharing-container');
 const fileUrl = document.querySelector('#file-url');
-const copyButton = document.querySelector('#copy-button');
 
 const emailForm = document.querySelector('#email-form');
+const toast = document.querySelector('.toast');
+
+const maxAllowedSize = 10 * 1024 * 1024; // 10MB
 
 const host = 'https://innshare.herokuapp.com';
 const uploadUrl = `https://reqres.in/api/users`;
@@ -54,9 +56,38 @@ const updateProgress = (e) => {
   percent.textContent = percentage;
 };
 
+let toastTimer;
+const showToast = (message) => {
+  toast.textContent = message;
+  clearTimeout(toastTimer);
+  toast.classList.add('show');
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2000);
+};
+
 const uploadFile = () => {
+  console.log(fileInput.files);
+
+  // only one file at a time
+  if (fileInput.files.length > 1) {
+    fileInput.files = null;
+    showToast('Please upload one file!');
+    progressContainer.style.display = 'none';
+    return;
+  }
+
   progressContainer.style.display = 'block';
   const file = fileInput.files[0];
+
+  // check file size is less than 10MB
+  if (file.size > maxAllowedSize) {
+    fileInput.files = null;
+    showToast(`Can\'t upload more than ${maxAllowedSize / (1024 * 1024)}MB`);
+    progressContainer.style.display = 'none';
+    return;
+  }
+
   const formData = new FormData();
   formData.append('myfile', file);
 
@@ -69,6 +100,10 @@ const uploadFile = () => {
   };
 
   xhr.upload.onprogress = updateProgress;
+  xhr.upload.onerror = () => {
+    fileInput.value = '';
+    showToast(`Error while uploading - ${xhr.statusText}`);
+  };
 
   xhr.open('POST', uploadUrl, true);
   xhr.send(formData);
@@ -76,12 +111,11 @@ const uploadFile = () => {
 
 const copyToClipboard = (value) => {
   fileUrl.select();
-  fileUrl.setSelectionRange(0, 99999);
-
-  navigator.clipboard.writeText(fileUrl.value);
+  document.execCommand('copy');
+  showToast('Copied to clipboard');
 };
 
-copyButton.addEventListener('click', copyToClipboard);
+fileUrl.addEventListener('click', copyToClipboard);
 
 const showLink = ({ file: url }) => {
   emailForm[2].removeAttribute('disabled');
@@ -121,7 +155,7 @@ emailForm.addEventListener('submit', (e) => {
     .then(({ success }) => {
       if (success) {
         sharingContainer.style.display = 'none';
-        console.log('completed');
+        showToast('Email send!');
       }
     })
     .catch((err) => {

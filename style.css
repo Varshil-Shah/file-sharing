@@ -15,6 +15,7 @@ html {
   font-weight: 400;
   background-color: var(--main-bg-color);
   height: 100%;
+  overflow: hidden;
 }
 
 body,
@@ -30,6 +31,7 @@ body,
   background-color: #ffffff;
   border-radius: 5px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  margin: 10px 0;
 }
 
 .drop-zone {
@@ -117,6 +119,10 @@ body,
   position: absolute;
 }
 
+#file-url {
+  cursor: pointer;
+}
+
 .progress-container .inner-container {
   margin: 10px 15px;
   position: absolute;
@@ -159,7 +165,7 @@ p {
 }
 
 .sharing-container .input-container input {
-  width: calc(var(--container-width) - 10%);
+  width: var(--container-width);
   border: 2px dashed var(--border-color);
   outline: none;
   padding: 10px 15px;
@@ -184,6 +190,7 @@ p {
 .email-container {
   display: flex;
   align-items: center;
+  flex-direction: column;
 }
 
 .email-container form {
@@ -224,4 +231,120 @@ p {
   color: #fff;
   border-radius: 5px;
   cursor: pointer;
+}
+
+/* TOAST */
+.toast {
+  background-color: #333;
+  visibility: hidden;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+}
+
+.toast.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  :root {
+    --container-width: 320px;
+  }
+
+  .drop-zone {
+    height: 100px;
+  }
+
+  .email-container .form-control {
+    flex-direction: column;
+  }
+
+  .email-container form .form-control {
+    width: 300px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  :root {
+    --container-width: 280px;
+  }
+
+  .drop-zone {
+    height: 80px;
+    margin: 20px 20px 0 20px;
+  }
+
+  .email-container {
+    padding: 0 15px;
+    margin-bottom: 0px;
+  }
+
+  .email-container .form-control {
+    flex-direction: column;
+  }
+
+  .email-container form .form-control {
+    width: 240px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
 }
