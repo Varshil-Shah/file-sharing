@@ -146,7 +146,12 @@ body,
 .sharing-container {
   display: none;
   width: var(--container-width);
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+p.expire {
+  text-align: center;
+  font-size: 18px;
 }
 
 .sharing-container .input-container {

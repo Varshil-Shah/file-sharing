@@ -71,6 +71,15 @@ const uploadFile = () => {
   xhr.send(formData);
 };
 
+const copyToClipboard = (value) => {
+  fileUrl.select();
+  fileUrl.setSelectionRange(0, 99999);
+
+  navigator.clipboard.writeText(fileUrl.value);
+};
+
+copyButton.addEventListener('click', copyToClipboard);
+
 const showLink = ({ link }) => {
   progressContainer.style.display = 'none';
   sharingContainer.style.display = 'block';
