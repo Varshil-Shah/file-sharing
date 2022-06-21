@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 :root {
-  --main-bg-color: #eff5fe;
-  --border-color: #0288d147;
+  --main-bg-color: #d3e4fd;
+  --border-color: #01a6ffb4;
+  --container-width: 500px;
 }
 
 body,
@@ -16,10 +17,13 @@ html {
   height: 100%;
 }
 
-body {
+body,
+.drop-zone,
+.upload-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .upload-container {
@@ -29,15 +33,11 @@ body {
 }
 
 .drop-zone {
-  width: 500px;
+  width: var(--container-width);
   min-height: 250px;
   border: 2px dashed var(--border-color);
   margin: 30px;
   border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
   transition: all 0.2s ease;
 }
 
@@ -95,4 +95,49 @@ body {
 .browseButton {
   color: rgb(74, 162, 244);
   cursor: pointer;
+}
+
+/* PROGRESS CONTAINER */
+.progress-container {
+  width: var(--container-width);
+  height: 70px;
+  border: 2px solid var(--main-bg-color);
+  margin-bottom: 30px;
+  border-radius: 5px;
+  position: relative;
+  display: none;
+}
+
+.progress-container .bg-progress {
+  background-color: var(--main-bg-color);
+  width: 0%;
+  height: 100%;
+  border-radius: 5px;
+  transform: width 0.25s linear;
+  position: absolute;
+}
+
+.progress-container .inner-container {
+  margin: 10px 15px;
+  position: absolute;
+  z-index: 1;
+  width: calc(100% - 30px);
+}
+
+.inner-container .progress-title {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.inner-container .percent-container {
+  font-size: 15px;
+  color: rgb(32, 28, 28);
+  font-weight: 500;
+  margin: 2px 0;
+}
+
+.inner-container .progress-bar {
+  width: 0%;
+  height: 3px;
+  background-color: var(--border-color);
 }
