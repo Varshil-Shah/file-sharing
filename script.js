@@ -8,8 +8,14 @@ const percent = document.querySelector('#percent');
 const progressBar = document.querySelector('.progress-bar');
 const progressTitle = document.querySelector('.progress-title');
 
+const sharingContainer = document.querySelector('.sharing-container');
+const fileUrl = document.querySelector('#file-url');
+const copyButton = document.querySelector('#copy-button');
+
 const host = 'https://innshare.herokuapp.com';
 const uploadUrl = `https://reqres.in/api/users`;
+const dummyUrl =
+  'https://innshare.herokuapp.com/files/a695f6ab-3234-49ec-b16b-61444060a92c';
 
 dropZone.addEventListener('dragover', (e) => {
   e.preventDefault();
@@ -55,7 +61,7 @@ const uploadFile = () => {
   xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       console.log(xhr.response);
-      showLink({ file: 'File Name', link: 'https://google.com/api' });
+      showLink({ file: 'File Name', link: dummyUrl });
     }
   };
 
@@ -67,7 +73,8 @@ const uploadFile = () => {
 
 const showLink = ({ link }) => {
   progressContainer.style.display = 'none';
-  console.log(link);
+  sharingContainer.style.display = 'block';
+  fileUrl.value = link;
 };
 
 fileInput.addEventListener('change', uploadFile);

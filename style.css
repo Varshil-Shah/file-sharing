@@ -141,3 +141,36 @@ body,
   height: 3px;
   background-color: var(--border-color);
 }
+
+/* SHARING CONTAINER */
+.sharing-container {
+  display: none;
+  width: var(--container-width);
+  margin-bottom: 10px;
+}
+
+.sharing-container .input-container {
+  position: relative;
+}
+
+.sharing-container .input-container input {
+  width: calc(var(--container-width) - 10%);
+  border: 2px dashed var(--border-color);
+  outline: none;
+  padding: 10px 15px;
+  font-size: 20px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background-color: #f5fcff;
+}
+
+.input-container img {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  top: 50%;
+  right: 0;
+  background-color: #fff;
+  transform: translate(-20%, -50%);
+  cursor: pointer;
+}
