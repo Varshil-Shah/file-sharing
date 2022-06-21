@@ -48,6 +48,8 @@ body {
 .icon-container img {
   width: 75px;
   position: absolute;
+  transform-origin: bottom;
+  transition: transform 250ms ease-in-out;
 }
 
 .icon-container .center {
@@ -57,4 +59,24 @@ body {
 .title {
   font-size: 22px;
   font-weight: 500;
+}
+
+.icon-container .right,
+.icon-container .left {
+  filter: grayscale(0.4);
+  transform: scale(0.9);
+}
+
+.dragged .icon-container .right {
+  transform: rotate(15deg) translateX(30px) scale(0.9);
+  transform-origin: bottom;
+}
+
+.dragged .icon-container .left {
+  transform: rotate(-15deg) translateX(-30px) scale(0.9);
+  transform-origin: bottom;
+}
+
+.dragged .icon-container .center {
+  transform: translateY(-5px);
 }
