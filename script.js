@@ -14,13 +14,11 @@ const fileUrl = document.querySelector('#file-url');
 const emailForm = document.querySelector('#email-form');
 const toast = document.querySelector('.toast');
 
-const maxAllowedSize = 10 * 1024 * 1024; // 10MB
+const maxAllowedSize = 50 * 1024 * 1024; // 50MB
 
-const host = 'https://innshare.herokuapp.com';
-const uploadUrl = `https://reqres.in/api/users`;
-const emailUrl = `https://reqres.in/api/send`;
-const dummyUrl =
-  'https://innshare.herokuapp.com/files/a695f6ab-3234-49ec-b16b-61444060a92c';
+const host = 'https://inshare-file-sharing-api.herokuapp.com';
+const uploadUrl = `${host}/api/files`;
+const emailUrl = `${host}/api/files/send`;
 
 dropZone.addEventListener('dragover', (e) => {
   e.preventDefault();
@@ -35,7 +33,6 @@ dropZone.addEventListener('drop', (e) => {
   e.preventDefault();
   dropZone.classList.remove('dragged');
   const files = e.dataTransfer.files;
-  console.table(files);
   if (files.length) {
     fileInput.files = files;
     uploadFile();
@@ -67,8 +64,6 @@ const showToast = (message) => {
 };
 
 const uploadFile = () => {
-  console.log(fileInput.files);
-
   // only one file at a time
   if (fileInput.files.length > 1) {
     fileInput.files = null;
@@ -92,10 +87,11 @@ const uploadFile = () => {
   formData.append('myfile', file);
 
   const xhr = new XMLHttpRequest();
+
   xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE) {
-      console.log(xhr.response);
-      showLink({ file: dummyUrl });
+      const data = JSON.parse(xhr.responseText);
+      showLink(data);
     }
   };
 
@@ -106,6 +102,7 @@ const uploadFile = () => {
   };
 
   xhr.open('POST', uploadUrl, true);
+  xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
   xhr.send(formData);
 };
 
@@ -137,19 +134,18 @@ emailForm.addEventListener('submit', (e) => {
   const formData = {
     uuid,
     emailTo: emailForm.elements['senderEmail'].value,
-    emailForm: emailForm.elements['receiverEmail'].value,
+    emailFrom: emailForm.elements['receiverEmail'].value,
   };
-
-  console.table(formData);
 
   emailForm[2].setAttribute('disabled', true);
   fetch(emailUrl, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
     body: JSON.stringify(formData),
   })
     .then((res) => {
-      console.log(res);
       return res.json();
     })
     .then(({ success }) => {
@@ -161,5 +157,4 @@ emailForm.addEventListener('submit', (e) => {
     .catch((err) => {
       console.error(err);
     });
-  console.log('done!');
 });

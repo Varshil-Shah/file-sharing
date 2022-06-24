@@ -207,7 +207,7 @@ p {
 .email-container form .form-control {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   width: 400px;
 }
 
@@ -317,18 +317,18 @@ p {
   }
 
   .title {
-    font-size: 18px;
+    font-size: 20px;
   }
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 400px) {
   :root {
     --container-width: 280px;
   }
 
   .drop-zone {
     height: 80px;
-    margin: 20px 20px 0 20px;
+    margin: 20px 20px 20px 20px;
   }
 
   .email-container {
